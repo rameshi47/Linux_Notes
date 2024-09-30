@@ -1,0 +1,992 @@
+Introduction to Linux
+Basic commands & shell scripts
+Writing Shell scripts & executions
+Introduction to DevOps
+SCM & branching
+Continuous Integration
+Continuous Integration
+Continuous Deployment
+Containers
+Container Orchestration
+Introduction to Jenkins
+Pipeline creation in Jenkins
+Declarative Pipelines in Jenkins
+Scripted Pipelines in Jenkins
+Introduction to Docker
+Docker commands
+Writing docker files
+Introduction to Kubernetes architecture
+Running application in Kubernetes
+Running application in Kubernetes
+Helm Chart
+Deployment using Helm Chart
+Introduction to Cloud
+AWS console & services
+Auto scaling, HA, Multi cloud
+Containers in Cloud
+Serverless computing
+Storage in Cloud
+Creating lambda function
+Creating lambda function
+Infra automation (IaC)
+Intro to Terraform
+Creating components in Terraform
+State management in Terraform
+Introduction to Ansible
+Creating playbook 
+ 
+
+
+
+
+LINUX:
+
+
+Linux is an operating system like windows,MacOs.
+Linux was developed by Linus Thorvalds in 1991, actually it was not his idea to develop an another OS,it was for an updated version of Unix 
+but not accepted by Unix board members.
+
+whenever u open a terminal, u will be in /home/user_name directory and u can change that by adding new line at the end of ~/.bashrc file
+
+echo "cd ~/.directory_name" >> ~/.bashrc    ---> it will add our default directory..
+
+and if u see $ symbol at the terminal after node name that means it is normal user
+ if u see # symbol it means root user.
+
+Booting process in linux:;
+ there are 6 steps which will follow one by one when u turn on a linux system
+
+1.BIOS--basic input output system
+Performs some system integrity checks -->   integrity test mean verifying the accuracy and consistence of data
+Searches, loads, and executes the boot loader program.
+
+Once the boot loader program is detected and loaded into the memory, BIOS gives the control to it.
+So, in simple terms BIOS loads and executes the MBR boot loader.
+
+booting means initializing the hardware , performing daignostic tests and load necessary software components
+when the boot process starts , the OS is loaded into memory
+during the boot process, the BIOS performs POWER-ONSELF-TEST to check hardware components such as RAM,CPU and other devices
+
+diagonstic test means identifying and analyzing problems of a system or a component
+the purpose of diagonistic test is to identify faults and malfunctions that affect the performance of the system or components
+
+To find the version and type of linux distribution you are using, there is a file in etc folder with name os-release
+cat /etc/os-release
+
+2.MBR--Master Boot record
+ it is located in 1st sector of bootable disk i.e., /dev/sda or /dev/hda
+in simple terms MBR loads and executes the GRUB boot loader.
+
+3.GRUB-Grand Unified Bootloader
+
+there will be a grub configuration file in /boot/grub/grub.conf 
+when this grub starts it will ask us to select which kernal to use if u have many kernal images, if u dont choose one it will choose 
+whatever the kernal image is mentioned in that conf file will be loaded
+
+and one more bootloader is there called LILO( linux loader) but it is old one and supports only linux..
+
+4.kernal
+it will mount the root file system
+and it will execute /sbin/init programs
+initrd stands for Initial RAM Disk.
+initrd is used by kernel as temporary root file system until kernel is booted and the real root file system is mounted. 
+It also contains necessary drivers compiled inside, which helps it to access the hard drive partitions, and other hardware.
+
+5. init
+
+it will start a particular run level as defined in /etc/inittab
+
+and different run levels are
+
+Init 0 - System safe shutdown.
+Init 1 - Single user mode.
+Init 2 - Multiple user mode with no NFS.
+Init 3 - Multiple user mode under the command line interface
+Init 4 - Reserved or Unused
+Init 5 - Multiple user mode under GUI.
+Init 6 - System reboot.
+
+most of the systems use either 3 or 5 as default runlevel.
+
+To check kernal version
+there are 2 ways
+1. u can use a command 
+  uname -r  for kernal release name
+  uname -v  for kernal version
+  uname -s  for kernal name
+  uname -a  for all the informations
+
+2.u can see the version from a file
+ 
+cat /proc/version
+
+to check which shell you are using
+echo $SHELL
+
+to see all the shells supported by our system
+
+cat /etc/shells
+
+
+Structure of Linux.
+
+software applications,user processes,user utility,compilers
+       |
+       |
+System libraries
+       |			 
+       |
+    Kernal
+       |
+       |
+ KERNAL MODULES    
+       |
+       |
+HARDWARE[CPU,RAM,I/O DEVICES]
+
+
+KERNAL:
+       Kernal is the core part of the operating system,it establishes connection between  devices and software,and it also manages system resources
+
+It has four main responsibilities
+1.Device management:
+  kernals store all the info about devices connected to the system in device drivers.this kernal knows which device can do what but 
+  kernal has a set of rules to be followed by the devices.
+
+2.Memory management:
+ Kernal keeps track of used and unused memory and makes sure that processes should not manapulate data of each other using virtual memory addresses
+
+3.Process management:
+in this process management kernal assign enough time and priority  to processes before giving another process to CPU and it also deals with security.
+
+4.Handling system calls:
+means programmers or developers can write a query or ask kernal to perform a task.
+
+
+System Libraries:
+
+ System libraries are used in accessing kernal features..Kernal has to be triggered to perform a task and this trigggering is done by  
+ applications but these applications must know how to place a system call because each kernal has different set of system calls.
+
+ so developers has developed a standard library of procedures that supports each OS,
+ the mainly used system library is GNU-C LIBRARY(GLIBC)
+
+
+SYSTEM TOOLS:
+
+Linux supports a set of system tools which are simple commands, with these commands we can access files,manipulate data in directories or files and anything..
+
+development tools:
+ with kernal, system libraries and system tools our OS is running and working but to update your system we need additional tools and libraries and 
+these tools and libraries are written by programmers and are called toolchain.
+a toolchain is a vital development tool used by developers to produce a working application.
+
+END USER TOOLS:
+
+these tools make a system unique for a userend tools are not required for OS and these are for end users only..
+
+why linux:
+
+1.Open source and free
+2.secure
+3.so many distribution available like centos,ubuntu,red-hat
+4.fast
+5.less no of malware attacks
+6.widely used by developers from super computers to small electronic gadgets.
+
+
+How linux works?
+
+ Every Linux-based operating system has the Linux kernel and set of software packages to manage hardware resources.
+
+Also, Linux OS includes some core GNU tools to provide a way to manage the kernel resources, install software, configure the security setting and performance, and
+ many more. All these tools are packaged together to make a functional operating system.
+
+Linux features:
+multiuser capability: Multi user can acess the system resources at the same time
+multitasking: more than one function can be performed simultaneously 
+secure: provides security in 3 ways..1.authenticating,2.authorization,3.encryption
+open source: its source code is freely available
+portability:it supports all types of hardwares
+live cd/usb: we can run all linux distros without even installing 
+applications support
+
+LINUX BASH:
+bash is command language intrupter as well as programing language ,it supports varibles and  functions
+and flow control.it can also read and excute the commands from a file.which is called a shell script.
+
+SHELL:
+the terminal contains a shell,it allows us to excute commands and to intract with systems.we can perform a various 
+operations such as store and retrive data,proccess information and  various simple as well as complex tasks.
+like basic operations:Date,cal,pwd,ls..
+
+
+whenever u create a file or directory, the default permission for directory is 755 and for file is 644
+
+u can change that default permissions tempararly by using umask number
+default umask num for so many distributions is 0022
+ for file            for directory
+  0666                   0777
+ -0022                  -0022
+= 0644(rw-r--r--)      = 0755(rwxr-xr-x)
+
+if u want to change that umask value permenantly u can edit that in a /etc/login.defs file
+ there u can find a UMASK value edit that value and reboot the system then it will apply..
+
+SCRIPTING:
+Linux supports feature called scripting that allow us to excute more than one task at once
+so its good to define a script rather than perfoming repetative tasks.lets define script is a combination of tasks.
+createa file with .sh extension.
+ex :file is = vi task.sh after click "esc" butoon and after, click"i" to insert mode.then write a script after that click"escp" button 
+    and ":wq" to write code to exit the script
+--- "chmod" command used to give the read and write permisiion to file
+    ex: sudo chmod +x task.sh
+--- "./" is used excute a script file
+      sh task.sh   also executes the script
+    ex: ./task.sh
+
+Linux Set Environment vairble:
+the environment varibles are dynamic that are stored with in system and launched by shell or sub shell.the environment varibles
+customize the system perfomance and behaviour of an application.
+-- "export" commonds set a new envoronment varible
+    ex: export kesava=500
+--- "echo" commond used to display the environment varible
+    ex: echo kesava
+---- "echo $kesav" is used to display the env varible value
+     ex:echo $kesava
+----"env" command used to display the all avilable environment varible
+----"unset" commond is used to remove the environment varible
+     ex:unset kesava
+
+environment variables are stored in two files
+
+/etc/environment is used  when we start a machine, we read the environment variables from this file
+
+/etc/profile  is used for variables when we login in a bash shell
+LINUX SET:
+  linux "set" commond is used to set and unset certain flags are setting within the shell environment.
+---- "set -x" is show the commonds and their arguments and turn on the debugging
+----"set +x" is used to turn off the debugging
+----"set -c" to disble the defaut behaviour of bash
+----set -e" to stop a script immidiatly
+----"export" the export commond is used to without any arguments , will display the all environment varibles
+---- "export -p" is commond is used to display the current shell
+----"export -f" to use a function with the export commond "-f".if we does not use a option its consider as a varible.
+----"printenv" used to print the varibels.
+
+Linux directory commands:
+ pwd -- show the present directory
+ ls  -- used to show the list of folders
+ cd  -- its used to change the directory
+ mkdir -- create your own directory
+ rmdir -- used to remove the directory
+root directoy --- the root directory is the top most directry of the system
+                  . its denoted  by "/"
+                  .the admin create a user
+home directory -- the home directory is the sub dirctory of root directry
+                  . its denoted by "user/usename"
+                  . each user have a home directory
+  
+----"mv" command is used to change the file names
+---- to install the rename in terminal"sudo apt install rename"
+
+MOST USED COMMONDS:
+
+----"touch" is used to create a empty files ex:touch demo.txt
+----"cat" commond is used to multipurpose.it can be create a file and display the file content and copy the content one file to another file
+     ex: cat > remo.txt and write script after "ctrl + d" enter to save the script and exit the file
+----"rm" command used to remove a file. Ex: rm demo.txt
+----"rmdir" used to remove the directorys ex:rmdir modi
+----"cp" command used to copy a file or directory. ex: cp demo.txt demo1.txt
+----"mv" move commond is used to change a file or directory one location to another location.ex:mv demo.txt Directory
+----"head" command is used to display the first 10 lines of file.ex:head demo.txt
+----"tail" commond used to display the last 10 lines of file. ex:tail demo.txt
+----"tac" commond is used to cat reverse its show the file reverse order. ex:tac demo.txt
+----"su" commond is used to allow access to linux shell to another user.ex: su -s javapoint
+---- chsh -s is used to change the login shell  ex: chsh /bin/sh
+----"id" commond is used to display the user id and group id.ex: id
+----"useradd" commond is used to add or remove a user on linux server.x:sudo useradd javapoint
+----"passwd" command is used to change or update a password.ex"sudo paasswd JTP
+
+LINUX FILTER COMMONDS:
+-----"cat" commond is also used as filter,to filter a file inside a pipes.
+      ex:cat demo.txt | tac | cat | tac
+-----"cut" commond is used to display the specific column in file. ex: cut -d- -f2 marks.txt
+-----"grep"it is a most powerful and useful filter in linux .it's useful for searching the content from the file with in use pipe.
+     ex: cat marks.txt | grep 9
+-----"comm" command used to compare two fies or streams. its display the three columns, first colum in non-matching items from first file and 
+      second column in non-matching items from second file and third column in matching file from both files.
+      ex: comm marks.txt demo.txt
+-----"sed" it is also stream editor and  is used to edit files used in regular expressions .it does not affect to main file.
+     ex: echo class7 | sed "s/class/jtp"
+-----"tee" commond is similar to cat commond only diffrence is it's puts standrd input on standrd output and also write them into file.  
+      ex: cat marks.txt | tee cobra.txt | cat
+-----"tr" commond is used to translate the file content like uppercase to lowercase and viceversa.
+     ex : cat marks.txt | tr "prcu" "PRCU"
+-----"uniq" commond is used to form a sort list every word occur once. ex: sort marks.txt | uniq
+-----"wc" is used to count The lines and charecters in file. ex:wc marks.txt
+-----"od" command is used to display the content diffrently such as in decimal,hexa decimal, and ASCII.
+      EX: od -b marks.txt (decimal)  
+          od -t x1 marks.txt (hexa decimal)
+          od -c marks.txt (ASCII)
+-----"sort" command used to sort the file in alphabetical order. EX: sort marks.txt
+-----"gzip" commond is used to truncte the file size.it is a compresion tool.EX: gzip demo.txt demo2.txt
+-----"gunzip" it used to decompressed a file .its reverse to gzip.
+      Ex: gunzip demo.txt demo1.txt
+LINUX UTILITY COMMONDS:
+-----"find" commond used to  find a particular file within a directory.its also supports various operations
+      such  as by name, by data, by type and more.
+      (.) for current directory and (/) for root. EX:find . -name "*pdf"
+-----"locate" command is same as find commond .itssearch the file in database.
+      EX: locate marks.txt
+-----"zcat" commond is used to dispaly the compressed files.
+      EX:zcat 
+----"df" commmond is used to  find disk space used in file system.
+-----"mount" commond is used to connect extrnal devices file system to systems file system
+
+LINUX NETWORKING COMMONDS:
+-----"ip" is an updated version of ipconfig commond .it is used to assign an ip address , intilize an ip address, disable an interface.
+      EX: ip a or ip addr
+-----"ssh" command used to create a remote connection through the ssh portal
+      Ex: ssh@ipaddress
+----"mail" command used to  send a mail from the commond line
+     Ex: mail -s "hello" reddymodi@gmail.com
+         cc:
+          hello there
+          hope you ur well
+-----"ping" commond used to check the connectivity between two nods. EX: ping javapoint.com
+-----"host" host commond is usd to display the ip address from the given domain name and vice versa. EX: host javapoint.com 
+
+
+
+whoami--displays name of current username 
+who -- displays all the users logged in the system
+who am i --shows info about current user only
+w -- shows who logged in and what they are doing.
+
+
+To create a user:  sudo useradd name
+to delete a user: sudo userdel name
+to create a group: sudo groupadd name
+
+to add a user to a particular group: sudo usermod -a -G groupname username
+to add a user to multiple groups: sudo usermod -a -G primarygrpname, groupname1, grpname2 username
+ to list all the groups in system: getent groups or cut -d: -f1 /etc/group | column
+to del a user from group: sudo gpasswd -d usrname grpname
+
+-G is to change secondary group
+-g is to change primary group
+
+
+file systems:
+
+ext,ext2,ext3,ext4  are extended file systems which were used in minix os, these are no longer used, these are old versions
+among all these extended file systems ext4 is faster and it is the default file system in linux distributions
+
+JFS FILE SYSTEM:
+
+Journaled file system, it is developed by IBM for AIX unix.it can be used in place of ext4, it is a handy file system when CPU power is limited.
+
+ReiserFS file system:  it is an alternative file system for ext3, it has so many drawbacks
+
+XFS file system:  it is considered as the high speed journled file system which is developed for parallel I/O proccessing. 
+NASA is still using this file system with its high storage server 300+ terrabyte server.
+
+Btrfs--B tree file system, it is used for fault tolerance ,repair system, extensive storage configuration,it is not good for production system
+
+Swap file system: 
+
+
+PRINT:
+
+Ip file_name  -- to print a file
+
+Ipstat -p -d  : to list all the printers connected
+
+Ip -d printer_name  file_name
+Ipr -P printer_name  file_name  : to print file from particular printer
+
+Ipoptions -d printer_name  : to set the default printer
+
+Ip -n number_of_copies file_name:  to print multiple copies
+Ipr _#number file_name
+
+cancel job-id : to cancel the queued job
+
+to see job-id use Ipq or Ipstat commands
+
+to move to queued print job to another printer :  Ipmove job-id dest_printer_name
+
+to print two sides of the page:  Ip -o sides=two-sided-short-edge file_name
+                                 Ip -o sides=two-sided-long-edge file_name
+
+
+Processes::
+
+many programs may  take place in RAM or in CPU by OS or by users, these programms are called as Processes.
+
+Process will be terminated on its own when completed or when we kill it
+ some processes will hang up due to errors or due to consuming high CPU% etc,we need to kill those processes else our system will hang up
+
+to kill a process we need to know the process information like Process id(PID),signal and more
+top-- to know all the running processes with PID, name,cpu% etc
+gs aux -- to know all the running processes.. 
+	a- to display processes running by all users
+	u-   to display processes running by particular user
+	x- to display processes running by GUI
+
+gs is more useful than top
+
+
+KILLING Processes:; we can kill a running process using the commands kill,pkill
+
+when we use kill commands linux will send the signals to the processes, that signal name is called 'SIGKILLS or "SIGTERM"
+
+by default linux sends SIGKILLS signals
+
+killall -i process_name : to kill a process interactively
+
+killall -o time process_name  : to kill a process which is running more than given time
+killall -y time process_name  : to kill a process which is running less than given time
+
+time needed be mentioned clearly
+
+seconds-s
+minitues - m
+days -d
+weeks - w
+months- m
+years - y
+
+
+signal name      signal num  	 use
+
+SIGHUP		   1		Hangup
+ 
+SIGNULL		   0 		NULL,check access to PID
+
+SIGIN		   2		interrupt
+
+SIGQUIT		   3	   	QUIT
+
+SIGKILL		   9            kill
+
+SIGTERM		   15		terminate
+
+SIGSTOP		   24 		stop
+
+
+SIGTSP		   25 		stop/pause the process
+
+SIGCONT		   26 		continue a stopped process
+
+to list all the signal names:  kill -l(alphabet L)
+
+nohup command is used to run a process even after exitting from shell,
+it ignores all the hang up signals and keeps running in the background.
+
+ The best usage of nohup commands is in memory check, synchronization, restarting a server, and more.
+ It is also advantageous when we run a program over ssh.
+
+to check nohup version :  nohup --version
+
+to start a background process: nohup cat hello.sh
+  it will run in the background and stores the output in nohup.out file
+we can store the output in another file as well using the command
+
+nohup cat hello.sh > new file
+
+use & symbol at the end to redirect the process to background
+ex: nohup ping w3schools.com &
+
+to see the background processes running in the system
+  pgrep -a ping 
+
+at command is used to execute a task at a scheduled time.
+
+atq- to display the user's pending tasks with task id,date,hour,queue and username
+
+atrm job_no  - it is used to delete tasks 
+
+at -c job_no -- to see which command or job is scheduled.
+
+
+
+File structure and directories:
+
+Binary directroy:  /bin, /sbin , /lib
+	it contains all commands that can be executed by the users but /sbin contains commands or programs
+         that need root access
+	/lib contains shared libraries often used by /bin and /sbin and it contains kernal modules also
+configuration : /etc, /boot
+        it containes all the configuration files of the system and /boot contains only files that are needed
+	for linux system to boot
+memory: /dev ,/proc ,/sys  these contains files of the whole system
+       /dev files which are used to represent and access devices are stored here.
+	/proc  it contains info about process like running process
+		It also works as virtual filesystem containing text information about system resources.
+
+data : /home, /root ,/srv, /mnt , /media ,/tmp  it is used to store data of the system
+ 	/home stores users personal files
+        /root  is the home directory for root user
+	/srv contains server specific data for the services provided by the systems like www,cvs,ftp
+	/media  it acts as a mount point for removable media devices like CD_ROM, USB,floppy disks etc
+	/tmp is used to store temparory data whhich will be lost when the system reboots.
+	/sys  contains the kernal information about hardware
+
+variable : /var/log , /var/cache
+		it contains files which size and content is not fixed and changes continuosly.
+
+optional packages : /opt
+			it contains all the optional packages data
+
+unix system resources : /usr   
+		it contains binaries,libraries,documentation for all the user applications
+		it contains only sherable read-only data
+Non-Standard directories: there are some non standard directories as well i.e.,
+             /cdrom, /run /lost + found
+		the '/run' directory stores run-time variable data. Run-time variable data means
+	 	data about the running system since last boot. For eg, running daemons.
+
+
+we can restrict any user including root user to edit or delete our files by using special permissions like
+
+-a  --> to give access only to append something to that file
+-i  --> means immutable which restrict particular user to edit or delete
+
+AWK COMMAND:
+
+The Awk is a powerful scripting language used for text scripting
+It acts as a filter in Linux. It is also referred as gawk (GNU awk) In Linux.
+
+awk '{ print "Welcome to Awk command"}'
+
+awk '{ print "kesava raju kanumuri"}'
+ex:
+   create a file and perform awk operations on that file
+
+  cat > student.txt
+Sam CS
+Daniel CS
+John IT
+Arya IT
+Mike ECE
+
+to print required num  of lines from a file
+
+awk '(NR==1)' filename   --> it will print first line
+
+awk '(NR==1),(NR==5)' filename    --> it will print lines from 1 to 5
+
+to list file contents in specific pattern
+
+awk '/CS/ {print}' students.txt
+Sam CS
+Daniel CS
+
+awk '/ECE/ {print}' students.txt
+Mike ECE
+
+If u don't mention any pattern it will list all the file contents
+
+awk '{print}' students.txt
+
+Sam CS
+Daniel CS
+John IT
+Arya IT
+Mike ECE
+
+
+to print selected columns in the file
+
+awk '{print $1,$3}' students.txt
+
+Sam            it is showing only 1st column bcz no 3rd column in that file content
+Daniel 
+John 
+Arya 
+Mike 
+
+awk '{print $1,$2}' students.txt
+
+Sam CS
+Daniel CS
+John IT
+Arya IT
+Mike ECE
+
+NR -- it is used to display the line numbers in that file
+$0 -- will print all columns
+$1 - will print 1st column only
+$2 - will print 2nd column only  like that
+
+awk '{print NR,$0}' students.txt
+1 Sam CS
+2 Daniel CS
+3 John IT
+4 Arya IT
+5 Mike ECE
+
+awk '{print NR,$1}' students.txt
+1 Sam 
+2 Daniel 
+3 John 
+4 Arya 
+5 Mike 
+
+awk '{print NR,$2}' students.txt
+1 CS
+2 CS
+3 IT
+4 IT
+5 ECE
+
+
+NF -- is used to print last column of the file
+
+awk '{print $NF}' students.txt
+CS
+CS
+IT
+IT
+ECE
+
+awk '{print $NF,$0}' students.txt
+
+CS Sam CS
+CS Daniel CS
+IT John IT
+IT Arya IT
+ECE Mike ECE
+
+awk '{print $NF,$1}' students.txt
+CS Sam 
+CS Daniel 
+IT John 
+IT Arya 
+ECE Mike 
+
+awk '{print $NF,$2}' students.txt
+CS CS
+CS CS
+IT IT
+IT IT
+ECE ECE
+
+awk 'BEGIN { ORS ="-"} {print}' student.txt
+-Sam CS--Daniel CS--John IT--Arya IT--Mike ECE-
+
+awk 'BEGIN { ORS ="/"} {print}' student.txt
+/Sam CS//Daniel CS//John IT//Arya IT//Mike ECE/
+
+whatever we give at ORS= will print at start and at the end of the every line
+we can use special symbols at ORS
+
+BEGIN word is optional, same result either use BEGIN or not
+
+
+we can use for loops as well in awk command:
+
+awk 'BEGIN { for(i=1;i<=10;i++) print "square of" ,i,"is",i*i;}'
+
+square of 1 is 1
+square of 2 is 4
+square of 3 is 9
+square of 4 is 16
+square of 5 is 25
+square of 6 is 36
+square of 7 is 49
+square of 8 is 64
+square of 9 is 81
+square of 10 is 100
+
+ex-2:
+ cat kesav.txt
+kesav,99,100
+modi,98,100
+siva,35,100
+gokul,40,100
+
+awk -F"," '{x+=$2}END{print x}' kesav.txt
+272
+awk -F"," '{x+=$3}END{print x}' kesav.txt
+400
+
+-F is used identify the columns 
+whatever we give in "" is considered as the column breaker
+
+we can do all mathematical operations as well in awk
+
+awk 'BEGIN {x=4;y=5;z=x+y; print z}'
+9
+awk 'BEGIN {print 2+3}'
+5
+awk 'BEGIN {print 2*3}'
+6
+
+
+MAKE COMMAND:
+
+The Linux make command is used to build and maintain groups of programs and files from the source code.
+It assists developers to install and compile many utilities from the terminal.
+
+The make command takes targets as arguments. These arguments are specified in 'Makefile.'
+ The makefile contains the targets as well as associated actions related to these targets
+
+
+
+
+SHELL SCRIPT to jump back to mentioned directory
+
+# !/bin/bash
+ 
+# A simple bash script to move up to desired directory level directly
+ 
+function jump()
+{
+    # original value of Internal Field Separator
+    OLDIFS=$IFS
+ 
+    # setting field separator to "/"
+    IFS=/
+ 
+    # converting working path into array of directories in path
+    # eg. /my/path/is/like/this
+    # into [, my, path, is, like, this]
+    path_arr=($PWD)
+ 
+    # setting IFS to original value
+    IFS=$OLDIFS
+ 
+    local pos=-1
+ 
+    # ${path_arr[@]} gives all the values in path_arr
+    for dir in "${path_arr[@]}"
+    do
+        # find the number of directories to move up to
+        # reach at target directory
+        pos=$[$pos+1]
+        if [ "$1" = "$dir" ];then
+ 
+            # length of the path_arr
+            dir_in_path=${#path_arr[@]}
+ 
+            #current working directory
+            cwd=$PWD
+            limit=$[$dir_in_path-$pos-1]
+            for ((i=0; i<limit; i++))
+            do
+                cwd=$cwd/..
+            done
+            cd $cwd
+            break
+        fi
+    done
+}
+
+
+Now to make this available on every terminal session, we have to put this in “.bashrc” file.
+
+The purpose of a .bashrc file is to provide a place where you can set up variables, functions and aliases
+
+$ echo “source ~/path/to/our/file/jump.sh” >> ~/.bashrc   --> this is the command to put that script into .bashrc file
+
+to execute this,just call the function name with directory name u want to jump in
+
+$ jump dir_name
+
+
+Regular expressions::
+
+1. expr: expr can be used to perform operations on integers and strings
+
+expr 2 + 3 will give 5
+expr 3 - 2 will give 1 
+expr 2 \* 3 wil give 6 ( for multiplication we should use backslash followed by * )
+expr 10 / 5 will give 2
+
+We should maintain space between agruments and operators else it will throw errors
+
+to perform some operations on strings:
+
+a=kesava
+
+to display length of the string
+echo `expr length $a` 
+display index position of the given character, in this example k
+echo `expr index $a k` 
+
+to display substring from given 2 index positions
+
+a=kesava , now to display substring from 3rd index to 6th index
+echo `expr substr $a 3 6`
+
+to check relation between two integers
+
+expr 2 \< 3
+
+expr 2 = 3
+ 
+expr 2 \> 3
+
+expr 2 \!= 3
+
+if the output is 0, it means false
+if the output is 1, it means true
+
+
+to find num of common chars in two strings
+
+expr kesava : kes   will give output as 3
+expr kesava : kesa  will give output as 4 like this we can find no of common chars
+
+
+
+
+
+grep--global regular expression print
+
+cat msg.txt
+	kesava raju
+	kanumuri
+	msys
+
+grep k msg.txt  will display all the lines containing the letter k with highlighiting
+
+grep a msg.txt 	will display all the lines containing the letter a with highlighiting
+ 
+to find two letters present in a file
+
+grep -E 'k|a' msg.txt will highlight all the lines containing k and a characters
+grep -P 'k|a' msg.txt will highlight all the lines containing k and a characters
+grep -G 'k\|a' msg.txt will highlight all the lines containing k and a characters
+
+there are 3 types of options for expressions
+
+-E for extended regular expressions
+
+-G for basic regular expressions
+
+-P for perl regular expressions
+
+
+to find all the lines ending with a specified char
+
+grep u$ msg.text  will display lines ending with letter u
+grep s$ msg.text  will display lines ending with letter s
+
+to display all the lines starting with a specified letter
+
+grep ^k msg.txt  will display all the lines starts with letter k
+
+
+to display particular words in a files
+
+grep '\bmsys\b' msg.txt  will display all msys words
+
+we can do this by using -w option also
+
+grep -w msys msg.txt
+
+
+to rename also we can use regular expression
+
+if u want to change name of msg.txt file to msg.text
+
+rename 's/txt/text/' msg.txt  it will rename first occurence of that specified string only
+
+rename 's/txt/text/g' file_name it will rename all the occurences in that directory 
+
+for case insensitive we can use i option
+
+rename 's/txt/text/i' file_name it will rename all the strings/files in that directory irrespective of case sensitive
+
+
+
+
+
+sed: stream editor
+
+
+ it is used to replace words
+
+echo kesava | sed 's/ke/re/'  it will print resava by replacing ke with re
+
+echo kesava | sed 's:ke:re:'
+
+echo kesava | sed 's_ke_re_'
+
+echo kesava | sed 's|ke|re|'  all these will work and gives same output
+
+we can do this same on a file content also
+
+sed -i 's/string/replace_word/' file_name    -i means interactive 
+
+and we can use dots(.) to match any char
+
+echo XXXX-XX-XX | sed 's/....-..-../YYYY-MM-DD/' it will replace that xxxx-xx-xx with YYYY-MM-DD
+
+
+File permissions:;
+
+to see all the users 
+
+cat /etc/passwd  or  cut -d: -f1 /etc/passwd   both will display all the users
+
+to see all the groups
+
+cat /etc/group  or  cut -d: -f1 /etc/group  both will display all the users
+
+to see users and group for a files and directories
+
+ls -la
+
+to change group for a file or a directory
+
+chgrp new_group_name file/directory
+
+to copy file read,write,execute permissions from one file to another file
+
+cp -p file1 file2  then file1 permissions will be applied to file2 
+
+
+to create a physical volume
+
+pvcreate /dev/sdx   replace the /dev/sdx with the device name
+
+
+
+To check connectivity of a server on a particular port number there are so many ways
+	1. using timeout command
+           timeout <value> bash -c "</dev/tcp/<server>/<port>"
+		value- time limit to check the connectivity
+		server-ip address or domain
+		port-- port number to check
+
+		example: test connectivity of a server training.devops.info on port 443
+			timeout 10 bash -c "</dev/tcp/training.devops.info/443"
+
+         	it will print no output,, then check exit status by using command  echo $?
+					if the output is zero means connection success
+							 one means connection failed
+
+		to get a particular msg on screen for connection success or failure
+
+		timeout 10 bash -c "</dev/tcp/training.devops.info/443" && echo "connection success" || echo "connection failure"
+
+        2. using netcat
+
+            to install netcat    sudo yum install netcat-openbsd ( amazon-linux)
+				 sudo aot-get install netcat-openbsd (ubuntu)
+     		example:
+			 nc <server> <port> -vz      v for details 
+						     z to exit after finding connectivity status
+
+   			nc -vz training.devops.info 443
+
+	3. using telnet
+   	
+	  	telent <sever> <port>
+
+		ex:   telnet training.devops.info 443
